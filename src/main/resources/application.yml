@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: url-shortener
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      data-source-properties:
+        sslmode: require
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      ssl:
+        enabled: ${REDIS_SSL:false}
+
+# Database Config
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+
+  db:
+    # Single DB used for both primary & replica
+    shard-count: 1
+
+    shard0:
+      primary-url: ${DB_URL}
+      replica-url: ${DB_URL}   # same DB (no real replica)
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+
+    # ─────────────────────────────────────────
+    # 🚀 PRODUCTION SETUP (COMMENTED FOR FUTURE)
+    # ─────────────────────────────────────────
+    # shard-count: 2
+    #
+    # shard0:
+    #   primary-url: jdbc:postgresql://shard0-primary:5432/urlshortener_shard0
+    #   replica-url: jdbc:postgresql://shard0-replica:5432/urlshortener_shard0
+    #   username: postgres
+    #   password: postgres
+    #
+    # shard1:
+    #   primary-url: jdbc:postgresql://shard1-primary:5432/urlshortener_shard1
+    #   replica-url: jdbc:postgresql://shard1-replica:5432/urlshortener_shard1
+    #   username: postgres
+    #   password: postgres
+
+  # ── Snowflake ID ───────────────────────────
+  snowflake:
+    node-id: 0
+
+  # ── Cache TTL ──────────────────────────────
+  cache:
+    url-ttl-hours: 24
+    click-count-ttl-hours: 168
+
+  # ── Redis Config ───────────────────────────
+  redis:
+    eviction-policy: volatile-lfu
+    max-memory: 256mb
+
+  # ── Rate Limiting ──────────────────────────
+  rate-limit:
+    capacity: 200
+    refill-rate: 100
+    window-seconds: 60
+
+# ─────────────────────────────────────────────
+# 📊 Monitoring / Logging
+# ─────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+logging:
+  level:
+    com.urlshortener: DEBUG

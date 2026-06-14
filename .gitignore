@@ -1,0 +1,59 @@
+# === Maven ===
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# === Maven Wrapper ===
+
+.mvn/wrapper/maven-wrapper.jar
+
+# === Logs ===
+
+logs/
+*.log
+
+# === Spring Boot ===
+
+*.jar
+*.war
+*.ear
+
+# === IDEs ===
+
+# IntelliJ
+
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+
+.vscode/
+
+# Eclipse
+
+.project
+.classpath
+.settings/
+
+# === OS Files ===
+
+.DS_Store
+Thumbs.db
+
+
+
+# === Test Reports ===
+
+surefire-reports/
+failsafe-reports/
+
+# === Node (if frontend inside repo) ===
+
+node_modules/
+
+# === Misc ===
+
+*.swp
+*.swo
